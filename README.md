@@ -1,6 +1,6 @@
 # Minimal PowerShell Prompt
 
-This script alters the default PowerShell prompt to provide a more minimal experience.
+This script alters the default PowerShell prompt to create a more minimal experience.
 
 ## Installation
 

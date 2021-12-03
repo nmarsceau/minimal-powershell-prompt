@@ -12,7 +12,7 @@ Function Prompt {
                 If ($lastCommand.Duration.Minutes -gt 0) {$formatString = '%m\m\ ' + $formatString;}
                 If ($lastCommand.Duration.Hours -gt 0) {$formatString = '%h\h\ ' + $formatString;}
                 If ($lastCommand.Duration.Days -gt 0) {$formatString = '%d\d\ ' + $formatString;}
-                Write-Host "`nRuntime: $($lastCommand.Duration.ToString($formatString))`n" -ForegroundColor Yellow;
+                Write-Host "`nRuntime: $($lastCommand.Duration.ToString($formatString))`n" -ForegroundColor $($config.runTimeColor ?? 'Yellow');
             }
         }
     }
@@ -28,7 +28,7 @@ Function Prompt {
             };
             $path = $displayPathSegments -join '\';
         }
-        Write-Host "$path" -ForegroundColor Blue -NoNewline;
+        Write-Host "$path" -ForegroundColor $($config.workingDirectoryColor ?? 'Blue') -NoNewline;
     }
 
     # Print Prompt String

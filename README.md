@@ -60,3 +60,18 @@ This property accepts an integer value. It indicates how many seconds a command 
 will be displayed. Set it to 0 to see the runtime of all commands, even very short-running ones.
 
 ![The runtime of the previous command is displayed at the prompt.](./previous-command-runtime.jpg)
+
+### Customize Colors
+By default, the working directory is printed in blue and the runtime of the previous command is printed
+in yellow. Change them by setting the `workingDirectoryColor` and `runTimeColor` properties in the config.
+
+```json
+{
+    "workingDirectoryColor": "Red",
+    "runTimeColor": "Magenta"
+}
+```
+
+The colors you specify for each property must be valid PowerShell colors.
+
+![A PowerShell prompt with different colors than the default.](./prompt-with-different-colors.jpg)

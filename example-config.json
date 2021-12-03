@@ -1,5 +1,6 @@
 {
     "showRuntimeThreshold": 10,
     "pathSegmentsToShow": 3,
-    "promptString": " > "
+    "promptString": " > ",
+    "workingDirectoryColor": "Red"
 }

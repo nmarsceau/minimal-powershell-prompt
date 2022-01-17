@@ -2,5 +2,6 @@
     "showRuntimeThreshold": 10,
     "pathSegmentsToShow": 3,
     "promptString": " > ",
-    "workingDirectoryColor": "Red"
+    "workingDirectoryColor": "Red",
+    "administratorIndicator": true
 }

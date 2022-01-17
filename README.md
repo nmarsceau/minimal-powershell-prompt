@@ -72,6 +72,21 @@ in yellow. Change them by setting the `workingDirectoryColor` and `runTimeColor`
 }
 ```
 
-The colors you specify for each property must be valid PowerShell colors.
+The colors specified for each property must be valid PowerShell colors.
 
 ![A PowerShell prompt with different colors than the default.](./prompt-with-different-colors.jpg)
+
+### Show Warning When Running As Administrator
+By default, this warning will not be displayed. Turn it on by setting the `administratorIndicator` property
+to `true` in the config.
+
+```json
+{
+    "administratorIndicator": true
+}
+```
+
+When this option is enabled and PowerShell is running with elevated privileges, a red warning will be printed
+before the prompt.
+
+![A PowerShell prompt running with elevated privileges.](./elevated-prompt.jpg)

@@ -17,6 +17,15 @@ Function Prompt {
         }
     }
 
+    # Administrator Indicator
+    If ($true -eq $config.administratorIndicator) {
+        $isAdministrator = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator);
+        If ($isAdministrator) {
+            Write-Host " Administrator " -ForegroundColor 'White' -BackgroundColor 'Red' -NoNewline;
+            Write-Host " " -NoNewline;
+        }
+    }
+
     # Print Working Directory
     If ($null -ne $config.pathSegmentsToShow -and 0 -ne $config.pathSegmentsToShow) {
         $pathSegments = $pwd.ToString().split('\');

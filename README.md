@@ -1,6 +1,6 @@
 # Minimal PowerShell Prompt
 
-This script alters the default PowerShell prompt to create a more minimal experience.
+This script alters the default PowerShell prompt to create a more useful experience while trying to remain as minimal as possible.
 
 ## Installation
 
@@ -9,84 +9,20 @@ This script alters the default PowerShell prompt to create a more minimal experi
 
     `. C:\path\to\minimal-powershell-profile.ps1`
 
-## Options
+## Features
 
-Minimal PowerShell Prompt works perfectly without any config. To change any of the default options,
-create a `config.json` file in the same directory as `minimal-powershell-prompt.ps1`. Use
-`example-config.json` as a guide.
+### Customized Command Prompt
 
-### Customize the Shell Prompt String
-The default character used for the shell prompt is ">".
-To change it, set the `promptString` property in the config.
-
-```json
-{
-    "promptString": " 🍕 "
-}
-```
-
-It can be set to any string.
-
-Open a new PowerShell session to see the change:
-
-![The pizza emoji used as the command prompt character.](./pizza-prompt.jpg)
-
-### Print the Working Directory
-By default, the working directory is not printed at the prompt.
-To add it, set the `pathSegmentsToShow` property in the config.
-
-```json
-{
-    "pathSegmentsToShow": 3
-}
-```
-
-Setting this property to an integer will display that many segments of the working directory path,
-starting from the end. Set the property to "all" to always display the full path.
+To keep the command prompt short, only the last 3 segments of the working directory will be printed.
 
 ![Only three segments of the working directory path are shown at the prompt.](./three-path-segments.jpg)
 
 ### Show the Runtime of the Previous Command
-By default, the runtime of the previous command will not be shown.
-To add it, set the `showRuntimeThreshold` property in the config.
-
-```json
-{
-    "showRuntimeThreshold": 5
-}
-```
-
-This property accepts an integer value. It indicates how many seconds a command must run before the runtime
-will be displayed. Set it to 0 to see the runtime of all commands, even very short-running ones.
+If the previous command took longer than 5 seconds to run, its runtime will be displayed before the prompt is printed.
 
 ![The runtime of the previous command is displayed at the prompt.](./previous-command-runtime.jpg)
 
-### Customize Colors
-By default, the working directory is printed in blue and the runtime of the previous command is printed
-in yellow. Change them by setting the `workingDirectoryColor` and `runTimeColor` properties in the config.
-
-```json
-{
-    "workingDirectoryColor": "Red",
-    "runTimeColor": "Magenta"
-}
-```
-
-The colors specified for each property must be valid PowerShell colors.
-
-![A PowerShell prompt with different colors than the default.](./prompt-with-different-colors.jpg)
-
-### Show Warning When Running As Administrator
-By default, this warning will not be displayed. Turn it on by setting the `administratorIndicator` property
-to `true` in the config.
-
-```json
-{
-    "administratorIndicator": true
-}
-```
-
-When this option is enabled and PowerShell is running with elevated privileges, a red warning will be printed
-before the prompt.
+### Administrator Warning
+When running PowerShell as an Administrator, a very bold warning will be displayed at the beginning of the prompt.
 
 ![A PowerShell prompt running with elevated privileges.](./elevated-prompt.jpg)

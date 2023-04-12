@@ -1,49 +1,35 @@
-Function Prompt {
-    # Load Config
-    $configPath = "$PSScriptRoot\config.json";
-    $config = If (Test-Path -Path $configPath -PathType Leaf) {Get-Content $configPath | ConvertFrom-Json;} Else {[PSCustomObject]@{};};
-
-    # Show Runtime of Previous Command
-    If ($null -ne $config.showRuntimeThreshold) {
-        $lastCommand = Get-History -Count 1;
-        If ($lastCommand) {
-            If ($lastCommand.Duration.TotalSeconds -gt $config.showRuntimeThreshold) {
-                $formatString = '%s\s';
-                If ($lastCommand.Duration.Minutes -gt 0) {$formatString = '%m\m\ ' + $formatString;}
-                If ($lastCommand.Duration.Hours -gt 0) {$formatString = '%h\h\ ' + $formatString;}
-                If ($lastCommand.Duration.Days -gt 0) {$formatString = '%d\d\ ' + $formatString;}
-                Write-Host "`nRuntime: $($lastCommand.Duration.ToString($formatString))`n" -ForegroundColor $($config.runTimeColor ?? 'Yellow');
-            }
+function Prompt {
+    # Runtime of Previous Command
+    $lastCommand = Get-History -Count 1;
+    if ($lastCommand) {
+        if ($lastCommand.Duration.TotalSeconds -gt 5) {
+            $formatString = '%s\s';
+            if ($lastCommand.Duration.Minutes -gt 0) {$formatString = '%m\m\ ' + $formatString;}
+            if ($lastCommand.Duration.Hours -gt 0) {$formatString = '%h\h\ ' + $formatString;}
+            if ($lastCommand.Duration.Days -gt 0) {$formatString = '%d\d\ ' + $formatString;}
+            Write-Host "`nRuntime: $($lastCommand.Duration.ToString($formatString))`n" -ForegroundColor 'Yellow';
         }
     }
 
     # Administrator Indicator
-    If ($true -eq $config.administratorIndicator) {
-        $isAdministrator = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator);
-        If ($isAdministrator) {
-            Write-Host " Administrator " -ForegroundColor 'White' -BackgroundColor 'Red' -NoNewline;
-            Write-Host " " -NoNewline;
-        }
+    $isAdministrator = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator);
+    if ($isAdministrator) {
+        Write-Host " Administrator " -ForegroundColor 'White' -BackgroundColor 'Red' -NoNewline;
+        Write-Host " " -NoNewline;
     }
 
-    # Print Working Directory
-    If ($null -ne $config.pathSegmentsToShow -and 0 -ne $config.pathSegmentsToShow) {
-        $pathSegments = $pwd.ToString().split('\');
-        If ('all' -eq $config.pathSegmentsToShow -or $config.pathSegmentsToShow -ge $pathSegments.Length) {$path = $pwd;}
-        Else {
-            $displayPathSegments = [System.Collections.ArrayList]@('...');
-            $null = For ($i = $config.pathSegmentsToShow; $i -gt 0; $i--) {
-                $displayPathSegments.Add($pathSegments[-$i]);
-            };
-            $path = $displayPathSegments -join '\';
-        }
-        Write-Host "$path" -ForegroundColor $($config.workingDirectoryColor ?? 'Blue') -NoNewline;
+    # Working Directory
+    $pathSegments = $pwd.ToString().split('\');
+    if ($pathSegments.Length -le 3) {$path = $pwd;}
+    else {
+        $displayPathSegments = [System.Collections.ArrayList]@('...');
+        $null = For ($i = 3; $i -gt 0; $i--) {
+            $displayPathSegments.Add($pathSegments[-$i]);
+        };
+        $path = $displayPathSegments -join '\';
     }
+    Write-Host "$path" -ForegroundColor 'Blue' -NoNewline;
 
-    # Print Prompt String
-    $prompt = If ($null -eq $config.promptString) {' > '} Else {$config.promptString};
-    If ($null -eq $config.pathSegmentsToShow -or 0 -eq $config.pathSegmentsToShow) {
-        $prompt = $prompt.TrimStart();
-    }
-    return $prompt;
+    # Prompt String
+    return ' > ';
 }
